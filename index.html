@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fixly — Repair is not your problem anymore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #fafaf8;
+    --cream: #f4f1eb;
+    --accent: #e8440a;
+    --accent-light: #ff5c1f;
+    --gray: #8a8a84;
+    --gray-light: #e8e6e0;
+    --card-bg: #ffffff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 2.5rem;
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-light);
+  }
+  .logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800; font-size: 1.4rem;
+    letter-spacing: -0.02em; color: var(--black);
+    text-decoration: none;
+  }
+  .logo span { color: var(--accent); }
+  .nav-cta {
+    background: var(--black); color: var(--white);
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 500;
+    padding: 0.6rem 1.4rem; border-radius: 100px; border: none;
+    cursor: pointer; transition: background 0.2s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 2.5rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: var(--cream);
+  }
+  .hero-bg-circle {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,68,10,0.12) 0%, transparent 70%);
+    top: -100px; right: -100px;
+  }
+  .hero-content {
+    position: relative; z-index: 1;
+    max-width: 820px;
+  }
+  .hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--black); color: var(--white);
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem; border-radius: 100px;
+    margin-bottom: 2rem;
+  }
+  .hero-tag-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-light);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.3); }
+  }
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.0;
+    letter-spacing: -0.03em;
+    color: var(--black);
+    margin-bottom: 1.5rem;
+  }
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    font-weight: 300;
+    color: #555;
+    line-height: 1.6;
+    max-width: 540px;
+    margin-bottom: 2.5rem;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--accent); color: var(--white);
+    font-family: 'Inter', sans-serif; font-size: 1rem; font-weight: 500;
+    padding: 0.9rem 2rem; border-radius: 100px; border: none;
+    cursor: pointer; transition: all 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--accent-light); transform: translateY(-1px); }
+  .btn-secondary {
+    color: var(--gray); font-size: 0.9rem; font-weight: 400;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .btn-secondary:hover { color: var(--black); }
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 2rem; border-top: 1px solid var(--gray-light);
+    flex-wrap: wrap;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem; font-weight: 800; color: var(--black);
+    letter-spacing: -0.02em;
+  }
+  .stat-label { font-size: 0.82rem; color: var(--gray); margin-top: 2px; }
+
+  /* SECTION WRAPPER */
+  section { padding: 6rem 2.5rem; }
+  .section-label {
+    font-size: 0.72rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.1; color: var(--black);
+    margin-bottom: 1rem;
+  }
+  .section-sub {
+    font-size: 1rem; color: var(--gray);
+    max-width: 480px; line-height: 1.7;
+    margin-bottom: 3.5rem;
+  }
+
+  /* HOW IT WORKS */
+  .how { background: var(--black); color: var(--white); }
+  .how .section-title { color: var(--white); }
+  .how .section-sub { color: rgba(255,255,255,0.5); }
+  .how .section-label { color: var(--accent-light); }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px; overflow: hidden;
+    margin-top: 1rem;
+  }
+  .step {
+    background: #111;
+    padding: 2.5rem 2rem;
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .step.visible { opacity: 1; transform: translateY(0); }
+  .step:hover { background: #161616; }
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 3.5rem; font-weight: 800;
+    color: rgba(255,255,255,0.06);
+    line-height: 1; margin-bottom: 1.5rem;
+    letter-spacing: -0.04em;
+  }
+  .step-icon-wrap {
+    width: 52px; height: 52px;
+    background: rgba(232,68,10,0.15);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+  .step-icon { font-size: 1.5rem; }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.1rem; font-weight: 700;
+    color: var(--white); margin-bottom: 0.6rem;
+  }
+  .step-desc { font-size: 0.88rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .step-connector {
+    position: absolute; top: 50%; right: -1px;
+    width: 2px; height: 40px;
+    background: var(--accent);
+    transform: translateY(-50%);
+  }
+
+  /* PHONE MOCKUP SECTION */
+  .app-section {
+    background: var(--cream);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (max-width: 768px) {
+    .app-section { grid-template-columns: 1fr; }
+  }
+  .phone-frame {
+    width: 280px;
+    background: var(--black);
+    border-radius: 40px;
+    padding: 12px;
+    margin: 0 auto;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+    position: relative;
+  }
+  .phone-notch {
+    width: 100px; height: 26px;
+    background: var(--black);
+    border-radius: 0 0 18px 18px;
+    margin: 0 auto 8px;
+    position: relative; z-index: 2;
+  }
+  .phone-screen {
+    background: #fff;
+    border-radius: 32px;
+    overflow: hidden;
+    min-height: 480px;
+    padding: 1rem;
+  }
+  .phone-header {
+    font-size: 0.7rem; font-weight: 600;
+    color: #333; text-align: center;
+    margin-bottom: 1rem; letter-spacing: 0.05em;
+  }
+  .phone-upload-area {
+    border: 2px dashed #e0ddd6;
+    border-radius: 16px; padding: 1.5rem 1rem;
+    text-align: center; margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .phone-upload-area:hover { border-color: var(--accent); }
+  .phone-upload-icon { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .phone-upload-text { font-size: 0.7rem; color: #888; }
+  .phone-input {
+    width: 100%; padding: 0.6rem 0.75rem;
+    border: 1px solid #e0ddd6; border-radius: 10px;
+    font-size: 0.7rem; color: #333;
+    margin-bottom: 0.75rem; outline: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .phone-ai-tag {
+    display: flex; align-items: center; gap: 6px;
+    background: #fff5f2; border: 1px solid #ffd5c8;
+    border-radius: 8px; padding: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  .phone-ai-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .phone-ai-text { font-size: 0.65rem; color: #c44020; font-weight: 500; }
+  .phone-estimate {
+    background: #0a0a0a; border-radius: 12px;
+    padding: 0.75rem; color: white; margin-bottom: 0.75rem;
+  }
+  .phone-estimate-label { font-size: 0.6rem; color: rgba(255,255,255,0.5); }
+  .phone-estimate-price { font-family: 'Syne', sans-serif; font-size: 1.2rem; font-weight: 700; }
+  .phone-btn {
+    width: 100%; background: var(--accent); color: white;
+    border: none; border-radius: 12px; padding: 0.75rem;
+    font-size: 0.8rem; font-weight: 600; cursor: pointer;
+    font-family: 'Syne', sans-serif; letter-spacing: 0.02em;
+  }
+
+  /* WHY */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+  .why-card {
+    background: var(--card-bg);
+    border: 1px solid var(--gray-light);
+    border-radius: 16px; padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .why-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .why-icon {
+    font-size: 1.8rem; margin-bottom: 1rem;
+    width: 48px; height: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--cream); border-radius: 12px;
+  }
+  .why-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem; font-weight: 700;
+    color: var(--black); margin-bottom: 0.5rem;
+  }
+  .why-desc { font-size: 0.875rem; color: var(--gray); line-height: 1.6; }
+
+  /* WAITLIST */
+  .waitlist {
+    background: var(--black); color: var(--white);
+    text-align: center;
+  }
+  .waitlist .section-title { color: var(--white); }
+  .waitlist-form {
+    display: flex; gap: 0.75rem; justify-content: center;
+    flex-wrap: wrap; margin-top: 2rem;
+  }
+  .waitlist-input {
+    padding: 0.85rem 1.25rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.06);
+    color: var(--white); font-size: 0.9rem;
+    width: 280px; outline: none;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s;
+  }
+  .waitlist-input:focus { border-color: var(--accent); }
+  .waitlist-input::placeholder { color: rgba(255,255,255,0.3); }
+  .waitlist-btn {
+    background: var(--accent); color: white;
+    border: none; border-radius: 100px;
+    padding: 0.85rem 2rem; font-size: 0.9rem; font-weight: 500;
+    cursor: pointer; transition: background 0.2s;
+    font-family: 'Inter', sans-serif;
+  }
+  .waitlist-btn:hover { background: var(--accent-light); }
+  .waitlist-note {
+    font-size: 0.78rem; color: rgba(255,255,255,0.3);
+    margin-top: 1rem;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 2.5rem;
+    border-top: 1px solid var(--gray-light);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: 1.1rem; color: var(--black); text-decoration: none;
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-text { font-size: 0.8rem; color: var(--gray); }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* AI BADGE */
+  .ai-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(232,68,10,0.1); border: 1px solid rgba(232,68,10,0.25);
+    color: var(--accent); border-radius: 100px;
+    font-size: 0.75rem; font-weight: 500;
+    padding: 0.35rem 0.9rem; margin-bottom: 1.5rem;
+  }
+  .ai-badge-icon { font-size: 0.85rem; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">fix<span>.</span>ly</a>
+  <a href="#waitlist" class="nav-cta">Join waitlist →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"><div class="hero-bg-circle"></div></div>
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-tag-dot"></span>
+      Now live in Sofia, Bulgaria
+    </div>
+    <h1>Repair is not<br>your <em>problem</em><br>anymore.</h1>
+    <p class="hero-sub">
+      Snap a photo. Describe what's wrong. We handle everything else —
+      pickup, diagnosis, repair, delivery. Zero decisions, zero hassle.
+    </p>
+    <div class="hero-actions">
+      <a href="#waitlist" class="btn-primary">Get early access</a>
+      <a href="#how" class="btn-secondary">See how it works ↓</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">1 tap</div>
+        <div class="stat-label">to start a repair</div>
+      </div>
+      <div>
+        <div class="stat-num">AI-first</div>
+        <div class="stat-label">instant diagnosis</div>
+      </div>
+      <div>
+        <div class="stat-num">SLA</div>
+        <div class="stat-label">guaranteed quality</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <p class="section-label">How it works</p>
+  <h2 class="section-title">Four steps.<br>Zero effort from you.</h2>
+  <p class="section-sub">We turned a frustrating multi-step process into a single action. Here's what happens after you tap.</p>
+
+  <div class="steps-grid">
+    <div class="step" style="transition-delay:0s">
+      <div class="step-num">01</div>
+      <div class="step-icon-wrap">
+        <div class="step-icon">📸</div>
+      </div>
+      <div class="step-title">Photo + description</div>
+      <div class="step-desc">Upload a photo of your broken device and describe the issue. Our AI analyzes it instantly and gives you a cost estimate before anything else happens.</div>
+    </div>
+    <div class="step" style="transition-delay:0.1s">
+      <div class="step-num">02</div>
+      <div class="step-icon-wrap">
+        <div class="step-icon">🚚</div>
+      </div>
+      <div class="step-title">Courier picks it up</div>
+      <div class="step-desc">A courier arrives at your door and takes the device to our vetted repair partner. You don't choose the shop — we already did, with SLA contracts and quality guarantees.</div>
+    </div>
+    <div class="step" style="transition-delay:0.2s">
+      <div class="step-num">03</div>
+      <div class="step-icon-wrap">
+        <div class="step-icon">✅</div>
+      </div>
+      <div class="step-title">Approve and pay</div>
+      <div class="step-desc">After real diagnosis, you get the exact price. Approve with one tap, or decline and get your device back — no questions asked. Payment is simple and secure.</div>
+    </div>
+    <div class="step" style="transition-delay:0.3s">
+      <div class="step-num">04</div>
+      <div class="step-icon-wrap">
+        <div class="step-icon">📦</div>
+      </div>
+      <div class="step-title">Delivered back to you</div>
+      <div class="step-desc">Your repaired device is delivered back to your door. Problem solved. You never left home.</div>
+    </div>
+  </div>
+</section>
+
+<!-- APP MOCKUP -->
+<section class="app-section fade-in" id="app">
+  <div>
+    <p class="section-label">The app</p>
+    <h2 class="section-title">One screen.<br>That's all you need.</h2>
+    <p class="section-sub">No registration maze. No quote requests. No back-and-forth. Open the app, describe the problem, done.</p>
+    <div class="ai-badge">
+      <span class="ai-badge-icon">⚡</span>
+      Powered by AI — diagnosis before pickup
+    </div>
+    <p style="font-size:0.85rem; color: var(--gray); line-height:1.7; max-width:400px;">
+      Our AI is trained on a proprietary database of real repairs. It predicts the issue and price range with high accuracy — so you know the cost before the courier even knocks.
+    </p>
+  </div>
+  <div>
+    <div class="phone-frame">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-header">FIXLY</div>
+        <div class="phone-upload-area">
+          <div class="phone-upload-icon">📷</div>
+          <div class="phone-upload-text">Upload photo of broken device</div>
+        </div>
+        <input class="phone-input" type="text" placeholder="Describe the problem..." readonly>
+        <div class="phone-ai-tag">
+          <div class="phone-ai-dot"></div>
+          <span class="phone-ai-text">AI diagnosed: cracked display module</span>
+        </div>
+        <div class="phone-estimate">
+          <div class="phone-estimate-label">Estimated cost</div>
+          <div class="phone-estimate-price">€80 – €120</div>
+        </div>
+        <button class="phone-btn">Schedule pickup →</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section style="background: var(--white);" class="fade-in">
+  <p class="section-label">Why Fixly</p>
+  <h2 class="section-title">We removed every<br>reason to procrastinate.</h2>
+  <p class="section-sub">People don't avoid repairs because they're lazy. They avoid them because the process is broken.</p>
+  <div class="why-grid">
+    <div class="why-card">
+      <div class="why-icon">🎯</div>
+      <div class="why-title">No choosing, no comparing</div>
+      <div class="why-desc">We pre-negotiate SLA contracts with vetted repair partners. You never have to browse reviews or ask "are they trustworthy?"</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🤖</div>
+      <div class="why-title">AI that knows repairs</div>
+      <div class="why-desc">Our model is trained on real repair outcomes — not generic data. Every job makes the next prediction more accurate.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🛡️</div>
+      <div class="why-title">Guaranteed quality</div>
+      <div class="why-desc">Every partner operates under strict SLA: defined turnaround, quality standards, and accountability. Your device is our responsibility.</div>
+    </div>
+    <div class="why-card">
+      <div class="why-icon">🏠</div>
+      <div class="why-title">Never leave home</div>
+      <div class="why-desc">Pickup at your door. Delivery at your door. The repair happens elsewhere — invisible to you, like magic.</div>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist fade-in" id="waitlist">
+  <p class="section-label" style="color:rgba(255,255,255,0.4);">Sofia launch</p>
+  <h2 class="section-title" style="color:white; max-width:560px; margin:0 auto 0.5rem;">Be first when<br>we go live.</h2>
+  <p style="color:rgba(255,255,255,0.4); font-size:0.95rem; margin-top:0.5rem;">
+    Launching in Sofia first. Early access members get priority pickup slots.
+  </p>
+  <form class="waitlist-form" onsubmit="handleSubmit(event)">
+    <input type="email" class="waitlist-input" placeholder="your@email.com" required id="emailInput">
+    <button type="submit" class="waitlist-btn">Join waitlist</button>
+  </form>
+  <p class="waitlist-note">No spam. Just a heads up when we launch.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">fix<span>.</span>ly</a>
+  <p class="footer-text">© 2025 Fixly. Sofia, Bulgaria. Repair is not your problem.</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in, .step').forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const input = document.getElementById('emailInput');
+    btn.textContent = '✓ You\'re on the list';
+    btn.style.background = '#1a9e5c';
+    input.disabled = true;
+    btn.disabled = true;
+  }
+</script>
+</body>
+</html>
